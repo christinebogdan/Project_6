@@ -1,0 +1,146 @@
+$primary: #3282f7;
+$success: #68d9a4;
+$danger: #ed6454;
+$enable-negative-margins: true;
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer / 4,
+  2: $spacer / 2,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  c1: $spacer * 0.3,
+  c2: $spacer * 0.8,
+  c3: $spacer * 1.25,
+  c4: $spacer * 1.875,
+  c5: $spacer * 3.125,
+  c6: $spacer * 6.25,
+);
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import url("../node_modules/bootstrap-icons/font/bootstrap-icons.css");
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+// ------- HEADER ------- //
+#logo {
+  width: 268px;
+  height: auto;
+}
+
+// ------- SEARCH ------- //
+#searchField {
+  background-color: #e7e7e7;
+}
+
+#searchField {
+  @include placeholder {
+    color: black;
+    opacity: 0.25;
+  }
+}
+
+// -------- TAGS -------- //
+
+.search-tag {
+  height: 37px;
+  width: 107px;
+  // padding: 0 20px;
+}
+
+// ------- FILTER ------- //
+
+.filter-buttons {
+  margin-left: -12px;
+}
+
+.filter-button + .filter-button {
+  margin-left: 20px;
+}
+
+.btn {
+  height: 70px;
+  width: 170px;
+}
+
+// ------ DROPDOWN ------ //
+
+#ingredientsCollapse,
+#utensilsCollapse,
+#deviceCollapse {
+  z-index: 1000;
+  border-radius: 5px;
+  width: 667px;
+}
+
+#ingredientsSearchInput,
+#utensilsSearchInput,
+#deviceSearchInput {
+  border-radius: 5px 5px 0 0;
+  @include placeholder {
+    color: white;
+    opacity: 0.5;
+  }
+  // padding-left: 30px;
+}
+
+// .input-group-text {
+//   padding-right: 30px;
+// }
+
+// check border-radius bootstrap
+
+#ingredientOptions,
+#utensilOptions,
+#deviceOptions {
+  // padding: 20px;
+  border-radius: 5px;
+}
+
+// -------- CARD -------- //
+
+.card {
+  height: 364px;
+  border-radius: 5px;
+}
+
+.card-body {
+  // padding: 20px;
+  background-color: #e7e7e7;
+  height: 186px;
+}
+
+.card-text {
+  font-size: 12px;
+}
+
+.recipe-ingredients {
+  line-height: 14px;
+}
+
+.recipe-instructions {
+  line-height: 100%;
+}
+
+.card-img-top {
+  height: 178px;
+  background-color: #c7bebe;
+}
+
+// font-family: 'Lato', sans-serif;
+// font-family: 'Roboto', sans-serif;
