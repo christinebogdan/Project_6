@@ -42,7 +42,7 @@ class recipeCard {
     const titleRow = document.createElement("div");
     titleRow.classList.add("d-flex", "mb-c3", "justify-content-between");
     const textRow = document.createElement("div");
-    textRow.classList.add("d-flex", "overflow-hidden");
+    textRow.classList.add("d-flex", "overflow-hidden", "card-text-row");
     // recipe title
     const recipeTitle = document.createElement("h5");
     recipeTitle.textContent = this.recipe.name;
@@ -68,8 +68,7 @@ class recipeCard {
     recipeInstructions.classList.add(
       "card-text",
       "col-6",
-      "recipe-instructions",
-      "text-truncate"
+      "recipe-instructions"
     );
     recipeInstructions.textContent = this.recipe.description;
 

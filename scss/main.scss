@@ -18,6 +18,7 @@ $spacers: (
   c5: $spacer * 3.125,
   c6: $spacer * 6.25,
   c7: $spacer * 0.625,
+  c8: $spacer * 0.875,
 );
 
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -97,6 +98,7 @@ $spacers: (
   @include placeholder {
     color: white;
     opacity: 0.5;
+    font-size: 18px;
   }
   // padding-left: 30px;
 }
@@ -133,6 +135,10 @@ $spacers: (
 
 .card-text {
   font-size: 12px;
+}
+
+.card-text-row {
+  height: calc(100% - 48px);
 }
 
 .card-recipe-time {

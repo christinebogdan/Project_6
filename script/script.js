@@ -1,5 +1,8 @@
 const searchTagContainer = document.querySelector("#search-tags");
 
+// HTML Live Collection of search tags
+let searchTags = searchTagContainer.children;
+
 const ingredientSearchOptions = document.querySelector(
   "#ingredientOptions .row"
 );
@@ -76,7 +79,16 @@ function removeTag(e) {
   e.stopPropagation();
   let tag = e.target.parentElement;
   tag.remove();
+
+  if (searchTags.length === 0) {
+    searchTagContainer.classList.remove("mt-4");
+  }
 }
+
+// --------------- DISPLAY SEARCH TAG CONTAINER ---------------- //
+
+// HTML Collection (live list) monitoring amount of tags displayed
+// and showing or hiding searchTagContainer depending on list length
 
 // ------------------------------------------------------------- //
 // ----------------- ADVANCED SEARCH OPTIONS ------------------- //
@@ -134,6 +146,9 @@ function createAdvancedSearchOptions(array, topic) {
 function chooseAdvancedSearchOption(e) {
   e.stopPropagation();
   let target = e.target;
+  if (searchTags.length === 0) {
+    searchTagContainer.classList.add("mt-4");
+  }
   if (target.classList.contains("filter-option")) {
     let filterItem = target.textContent;
     let topic;
