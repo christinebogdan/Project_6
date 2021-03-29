@@ -73,7 +73,7 @@
           >
             <div class="input-group flex-nowrap mt-3">
               <input
-                class="form-control bg-primary border-0 ps-c4"
+                class="form-control bg-primary border-0 ms-4"
                 autocomplete="off"
                 id="ingredientsSearchInput"
                 placeholder="Search an ingredient"
@@ -84,17 +84,13 @@
               ></span>
             </div>
 
-            <div id="ingredientOptions" class="text-white bg-primary p-c3">
-              <div class="row">
-                <p class="col-4">Coco</p>
-                <p class="col-4">Milk</p>
-                <p class="col-4">Fish</p>
-              </div>
-              <div class="row">
-                <p class="col-4">Oranges</p>
-                <p class="col-4">Rice</p>
-                <p class="col-4">Salt</p>
-              </div>
+            <div
+              id="ingredientOptions"
+              class="text-white bg-primary p-c3"
+              data-bs-toggle="collapse"
+              data-bs-target="#ingredientsCollapse.show"
+            >
+              <div class="row"></div>
             </div>
           </div>
         </div>
@@ -120,7 +116,7 @@
           >
             <div class="input-group flex-nowrap mt-3">
               <input
-                class="form-control bg-success border-0 ps-c4"
+                class="form-control bg-success border-0 ms-4"
                 autocomplete="off"
                 id="deviceSearchInput"
                 placeholder="Search an ingredient"
@@ -131,45 +127,41 @@
               ></span>
             </div>
 
-            <div id="deviceOptions" class="text-white bg-success p-c3">
-              <div class="row">
-                <p class="col-4">Coco</p>
-                <p class="col-4">Milk</p>
-                <p class="col-4">Fish</p>
-              </div>
-              <div class="row">
-                <p class="col-4">Oranges</p>
-                <p class="col-4">Rice</p>
-                <p class="col-4">Salt</p>
-              </div>
+            <div
+              id="deviceOptions"
+              class="text-white bg-success p-c3"
+              data-bs-toggle="collapse"
+              data-bs-target="#deviceCollapse.show"
+            >
+              <div class="row"></div>
             </div>
           </div>
         </div>
 
-        <!-- UTENSILS -->
+        <!-- USTENSILS -->
         <div class="filter-button position-relative p-0 mt-3">
           <button
             class="btn btn-danger text-white d-flex justify-content-between align-items-center px-3"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#utensilsCollapse"
+            data-bs-target="#ustensilsCollapse"
             aria-expanded="false"
-            aria-controls="utensilsCollapse"
+            aria-controls="ustensilsCollapse"
           >
-            Utensils
+            Ustensils
             <span
               class="input-group-text bg-danger border-0 bi bi-chevron-up text-white pe-0"
             ></span>
           </button>
           <div
             class="collapse position-absolute top-0 start-0 bg-danger"
-            id="utensilsCollapse"
+            id="ustensilsCollapse"
           >
             <div class="input-group flex-nowrap mt-3">
               <input
-                class="form-control bg-danger border-0 ps-c4"
+                class="form-control bg-danger border-0 ms-4"
                 autocomplete="off"
-                id="utensilsSearchInput"
+                id="ustensilsSearchInput"
                 placeholder="Search an ingredient"
                 aria-label="Search an ingredient"
               />
@@ -178,17 +170,13 @@
               ></span>
             </div>
 
-            <div id="utensilOptions" class="text-white bg-danger p-c3">
-              <div class="row">
-                <p class="col-4">Coco</p>
-                <p class="col-4">Milk</p>
-                <p class="col-4">Fish</p>
-              </div>
-              <div class="row">
-                <p class="col-4">Oranges</p>
-                <p class="col-4">Rice</p>
-                <p class="col-4">Salt</p>
-              </div>
+            <div
+              id="ustensilOptions"
+              class="text-white bg-danger p-c3"
+              data-bs-toggle="collapse"
+              data-bs-target="#ustensilsCollapse.show"
+            >
+              <div class="row"></div>
             </div>
           </div>
         </div>
@@ -197,7 +185,7 @@
 
     <!-- RECIPES -->
     <div class="container mt-4">
-      <div class="row row-cols-3 recipes g-5">
+      <div class="row row-cols-3 recipes g-4">
         <!-- <div class="card col-4 p-0"> -->
         <!-- <img src="..." class="card-img-top" alt="..." /> -->
         <!-- <div class="card-img-top"></div>
@@ -230,6 +218,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="script/recipes.js"></script>
+    <script src="script/factory_recipe-card.js"></script>
+    <script src="script/factory.js"></script>
     <script src="script/script.js"></script>
   </body>
 </html>

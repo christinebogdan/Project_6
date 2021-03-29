@@ -17,6 +17,7 @@ $spacers: (
   c4: $spacer * 1.875,
   c5: $spacer * 3.125,
   c6: $spacer * 6.25,
+  c7: $spacer * 0.625,
 );
 
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -81,7 +82,7 @@ $spacers: (
 // ------ DROPDOWN ------ //
 
 #ingredientsCollapse,
-#utensilsCollapse,
+#ustensilsCollapse,
 #deviceCollapse {
   z-index: 1000;
   border-radius: 5px;
@@ -89,9 +90,9 @@ $spacers: (
 }
 
 #ingredientsSearchInput,
-#utensilsSearchInput,
+#ustensilsSearchInput,
 #deviceSearchInput {
-  border-radius: 5px 5px 0 0;
+  // border-radius: 5px 5px 0 0;
   @include placeholder {
     color: white;
     opacity: 0.5;
@@ -106,7 +107,7 @@ $spacers: (
 // check border-radius bootstrap
 
 #ingredientOptions,
-#utensilOptions,
+#ustensilOptions,
 #deviceOptions {
   // padding: 20px;
   border-radius: 5px;
@@ -125,8 +126,16 @@ $spacers: (
   height: 186px;
 }
 
+.card-title {
+  font-size: 18px;
+}
+
 .card-text {
   font-size: 12px;
+}
+
+.card-recipe-time {
+  font-size: 18px;
 }
 
 .recipe-ingredients {
@@ -140,6 +149,12 @@ $spacers: (
 .card-img-top {
   height: 178px;
   background-color: #c7bebe;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 // font-family: 'Lato', sans-serif;
