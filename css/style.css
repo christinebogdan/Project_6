@@ -15923,7 +15923,7 @@ textarea.form-control-lg {
 
 .search-tag {
   height: 37px;
-  width: 107px;
+  width: fit-content;
 }
 
 .filter-buttons {

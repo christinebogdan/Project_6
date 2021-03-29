@@ -1,10 +1,8 @@
-const ingredientOptions = document.querySelector("#ingredientOptions");
-const ingredientSearchInput = document.querySelector("#ingredientSearchInput");
-const recipeContainer = document.querySelector(".recipes");
+const searchTagContainer = document.querySelector("#search-tags");
+
 const ingredientSearchOptions = document.querySelector(
   "#ingredientOptions .row"
 );
-
 const deviceSearchOptions = document.querySelector("#deviceOptions .row");
 const ustensilSearchOptions = document.querySelector("#ustensilOptions .row");
 
@@ -14,6 +12,8 @@ const deviceSet = new Set();
 let devicesArrayNoDuplicates = [];
 const ustensilSet = new Set();
 let ustensilsArrayNoDuplicates = [];
+
+const recipeContainer = document.querySelector(".recipes");
 
 // ------------------------------------------------------------- //
 // --------------------- FUNCTION CALLS ------------------------ //
@@ -26,6 +26,57 @@ createAdvancedSearchOptions(devicesArrayNoDuplicates, "devices");
 createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
 
 createRecipeCards(recipes);
+
+// ------------------------------------------------------------- //
+// ----------------------- SEARCH TAGS ------------------------- //
+// ------------------------------------------------------------- //
+
+// ------------------------ CREATE TAGS ------------------------ //
+
+function createTag(filterItem, topic) {
+  // create tag container
+  const tag = document.createElement("div");
+  tag.classList.add(
+    "search-tag",
+    "rounded",
+    "d-flex",
+    "align-items-center",
+    "justify-content-between",
+    "text-white",
+    "px-c3",
+    "me-2"
+  );
+  // set color depending on filter topic
+  if (topic === "ingredients") {
+    tag.classList.add("bg-primary");
+  } else if (topic === "devices") {
+    tag.classList.add("bg-success");
+  } else if (topic === "ustensils") {
+    tag.classList.add("bg-danger");
+  }
+  // set tag content and x close button
+  const tagContent = document.createElement("span");
+  tagContent.classList.add("d-inline-block", "me-c2");
+  tagContent.textContent = filterItem;
+  const removeTagButton = document.createElement("i");
+  removeTagButton.classList.add("bi", "bi-x-circle");
+
+  // add event listener to close button
+  removeTagButton.addEventListener("click", removeTag);
+
+  // append all
+  tag.appendChild(tagContent);
+  tag.appendChild(removeTagButton);
+  searchTagContainer.appendChild(tag);
+}
+
+// ---------------------- EVENT HANDLING ----------------------- //
+
+function removeTag(e) {
+  e.stopPropagation();
+  let tag = e.target.parentElement;
+  tag.remove();
+}
 
 // ------------------------------------------------------------- //
 // ----------------- ADVANCED SEARCH OPTIONS ------------------- //
@@ -71,12 +122,41 @@ function createAdvancedSearchOptions(array, topic) {
 
   array.forEach((element) => {
     let domChild = document.createElement("p");
-    domChild.classList.add("col-4", "mb-c7");
+    domChild.classList.add("col-4", "mb-c7", "filter-option");
     domChild.textContent = element.charAt(0).toUpperCase() + element.slice(1);
 
     domParent.appendChild(domChild);
   });
 }
+
+// ---------------------- EVENT HANDLING ---------------------- //
+
+function chooseAdvancedSearchOption(e) {
+  e.stopPropagation();
+  let target = e.target;
+  if (target.classList.contains("filter-option")) {
+    let filterItem = target.textContent;
+    let topic;
+    if (target.parentElement === ingredientSearchOptions) {
+      topic = "ingredients";
+    } else if (target.parentElement === deviceSearchOptions) {
+      topic = "devices";
+    } else if (target.parentElement === ustensilSearchOptions) {
+      topic = "ustensils";
+    }
+    createTag(filterItem, topic);
+  }
+}
+
+document
+  .getElementById("ingredientsCollapse")
+  .addEventListener("click", chooseAdvancedSearchOption);
+document
+  .getElementById("deviceCollapse")
+  .addEventListener("click", chooseAdvancedSearchOption);
+document
+  .getElementById("ustensilsCollapse")
+  .addEventListener("click", chooseAdvancedSearchOption);
 
 // ------------------------------------------------------------- //
 // ----------------------- RECIPE CARDS ------------------------ //
