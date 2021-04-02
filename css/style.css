@@ -16565,7 +16565,7 @@ textarea.form-control-lg {
 
 #ingredientsCollapse,
 #ustensilsCollapse,
-#deviceCollapse {
+#applianceCollapse {
   z-index: 1000;
   border-radius: 5px;
   width: 667px;
@@ -16573,28 +16573,28 @@ textarea.form-control-lg {
 
 #ingredientsSearchInput::-webkit-input-placeholder,
 #ustensilsSearchInput::-webkit-input-placeholder,
-#deviceSearchInput::-webkit-input-placeholder {
+#applianceSearchInput::-webkit-input-placeholder {
   color: white;
   opacity: 0.5;
   font-size: 18px;
 }
 #ingredientsSearchInput:-moz-placeholder,
 #ustensilsSearchInput:-moz-placeholder,
-#deviceSearchInput:-moz-placeholder {
+#applianceSearchInput:-moz-placeholder {
   color: white;
   opacity: 0.5;
   font-size: 18px;
 }
 #ingredientsSearchInput::-moz-placeholder,
 #ustensilsSearchInput::-moz-placeholder,
-#deviceSearchInput::-moz-placeholder {
+#applianceSearchInput::-moz-placeholder {
   color: white;
   opacity: 0.5;
   font-size: 18px;
 }
 #ingredientsSearchInput:-ms-input-placeholder,
 #ustensilsSearchInput:-ms-input-placeholder,
-#deviceSearchInput:-ms-input-placeholder {
+#applianceSearchInput:-ms-input-placeholder {
   color: white;
   opacity: 0.5;
   font-size: 18px;
@@ -16602,7 +16602,7 @@ textarea.form-control-lg {
 
 #ingredientOptions,
 #ustensilOptions,
-#deviceOptions {
+#applianceOptions {
   border-radius: 5px;
 }
 

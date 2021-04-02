@@ -85,7 +85,7 @@ $spacers: (
 
 #ingredientsCollapse,
 #ustensilsCollapse,
-#deviceCollapse {
+#applianceCollapse {
   z-index: 1000;
   border-radius: 5px;
   width: 667px;
@@ -93,7 +93,7 @@ $spacers: (
 
 #ingredientsSearchInput,
 #ustensilsSearchInput,
-#deviceSearchInput {
+#applianceSearchInput {
   // border-radius: 5px 5px 0 0;
   @include placeholder {
     color: white;
@@ -111,7 +111,7 @@ $spacers: (
 
 #ingredientOptions,
 #ustensilOptions,
-#deviceOptions {
+#applianceOptions {
   // padding: 20px;
   border-radius: 5px;
 }

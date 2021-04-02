@@ -6,13 +6,13 @@ let searchTags = searchTagContainer.children;
 const ingredientSearchOptions = document.querySelector(
   "#ingredientOptions .row"
 );
-const deviceSearchOptions = document.querySelector("#deviceOptions .row");
+const applianceSearchOptions = document.querySelector("#applianceOptions .row");
 const ustensilSearchOptions = document.querySelector("#ustensilOptions .row");
 
 const ingredientSet = new Set();
 let ingredientsArrayNoDuplicates = [];
-const deviceSet = new Set();
-let devicesArrayNoDuplicates = [];
+const applianceSet = new Set();
+let applianceArrayNoDuplicates = [];
 const ustensilSet = new Set();
 let ustensilsArrayNoDuplicates = [];
 
@@ -25,7 +25,7 @@ const recipeContainer = document.querySelector(".recipes");
 removeDuplicateValues();
 
 createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
-createAdvancedSearchOptions(devicesArrayNoDuplicates, "devices");
+createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
 createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
 
 createRecipeCards(recipes);
@@ -52,10 +52,13 @@ function createTag(filterItem, topic) {
   // set color depending on filter topic
   if (topic === "ingredients") {
     tag.classList.add("bg-primary");
-  } else if (topic === "devices") {
+    tag.setAttribute("data-topic", topic);
+  } else if (topic === "appliance") {
     tag.classList.add("bg-success");
+    tag.setAttribute("data-topic", topic);
   } else if (topic === "ustensils") {
     tag.classList.add("bg-danger");
+    tag.setAttribute("data-topic", topic);
   }
   // set tag content and x close button
   const tagContent = document.createElement("span");
@@ -96,7 +99,7 @@ function removeTag(e) {
 
 // --------------------- REMOVE DUPLICATES --------------------- //
 
-// create arrays of ingredients, devices and ustensils with no duplicate values
+// create arrays of ingredients, appliances and ustensils with no duplicate values
 function removeDuplicateValues() {
   recipes.forEach((recipe) => {
     // fill ingredient set
@@ -104,8 +107,8 @@ function removeDuplicateValues() {
       ingredientSet.add(ingredient.ingredient.toLowerCase());
     });
 
-    // fill device set
-    deviceSet.add(recipe.appliance.toLowerCase());
+    // fill appliance set
+    applianceSet.add(recipe.appliance.toLowerCase());
 
     // fill ustensils set
     recipe.ustensils.forEach((ustensil) => {
@@ -115,7 +118,7 @@ function removeDuplicateValues() {
 
   // turn sets into arrays
   ingredientsArrayNoDuplicates = [...ingredientSet];
-  devicesArrayNoDuplicates = [...deviceSet];
+  applianceArrayNoDuplicates = [...applianceSet];
   ustensilsArrayNoDuplicates = [...ustensilSet];
 }
 
@@ -126,8 +129,8 @@ function createAdvancedSearchOptions(array, topic) {
   let domParent;
   if (topic === "ingredients") {
     domParent = ingredientSearchOptions;
-  } else if (topic === "devices") {
-    domParent = deviceSearchOptions;
+  } else if (topic === "appliance") {
+    domParent = applianceSearchOptions;
   } else if (topic === "ustensils") {
     domParent = ustensilSearchOptions;
   }
@@ -154,8 +157,8 @@ function chooseAdvancedSearchOption(e) {
     let topic;
     if (target.parentElement === ingredientSearchOptions) {
       topic = "ingredients";
-    } else if (target.parentElement === deviceSearchOptions) {
-      topic = "devices";
+    } else if (target.parentElement === applianceSearchOptions) {
+      topic = "appliance";
     } else if (target.parentElement === ustensilSearchOptions) {
       topic = "ustensils";
     }
@@ -167,7 +170,7 @@ document
   .getElementById("ingredientsCollapse")
   .addEventListener("click", chooseAdvancedSearchOption);
 document
-  .getElementById("deviceCollapse")
+  .getElementById("applianceCollapse")
   .addEventListener("click", chooseAdvancedSearchOption);
 document
   .getElementById("ustensilsCollapse")

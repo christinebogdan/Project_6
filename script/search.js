@@ -1,66 +1,124 @@
 const mainSearch = document.getElementById("searchField");
-const searchResults = new Set();
 
-let previousQuery = "";
+// mainSearch.addEventListener("input", (e) => {
+//   let query = e.target.value.toLowerCase();
+//   if (query.length >= 3) {
+//     runMainSearchQuery(query, recipes);
+//   }
+//   if (query.length < 3) {
+//     const showAllRecipes = document.querySelectorAll(["[data-found='false']"]);
+//     showAllRecipes.forEach((recipe) => {
+//       recipe.setAttribute("data-found", "true");
+//     });
+//   }
+// });
+
+// ------------------------------------------------------------- //
+// ----------------------- MAIN SEARCH ------------------------- //
+// ------------------------------------------------------------- //
+
+// ---------------------- EVENT LISTENER ----------------------- //
 
 mainSearch.addEventListener("input", (e) => {
   let query = e.target.value.toLowerCase();
   if (query.length >= 3) {
-    runMainSearchQuery(query);
+    searchForQuery(query);
   }
   if (query.length < 3) {
-    // everything visible
+    const showAllRecipes = document.querySelectorAll(["[data-found='false']"]);
+    showAllRecipes.forEach((recipe) => {
+      recipe.setAttribute("data-found", "true");
+    });
   }
 });
 
-function runMainSearchQuery(query) {
-  if (
-    searchPattern(previousQuery, query) &&
-    query.length - previousQuery.length === 1
-  ) {
-    const previousSearchResults = Array.from(searchResults);
-    console.log(previousSearchResults);
+// --------------------- SEARCH FUNCTION ---------------------- //
 
-    // for (let i = 0; i < previousSearchResults.length; i++) {
-    //   // iterate over previous Search Results
-    //   runMainSearchQuery(query);
-    // }
-  }
-  for (let i = 0; i < recipes.length; i++) {
-    const recipe = recipes[i];
-    const recipeID = recipe.id;
-    const recipeDOMElement = document.getElementById(recipeID);
-    recipeDOMElement.setAttribute("data-found", "false");
-    const recipeTitle = recipe.name.toLowerCase();
-    const recipeIngredients = recipe.ingredients;
-    const recipeDescription = recipe.description.toLowerCase();
+// use of closure to keep track of search results and previous search query
 
-    if (searchPattern(query, recipeTitle)) {
-      console.log("found in title of recipe:", recipeID);
-      searchResults.add(recipe);
-      recipeDOMElement.setAttribute("data-found", "true");
+let searchForQuery = runMainSearchQuery();
+
+function runMainSearchQuery() {
+  let searchResults = new Set();
+  let possibleResults;
+  let previousQuery = "";
+
+  function searchPossibleResults(query) {
+    console.log("search results before search runs:", searchResults);
+    if (searchResults.size > 0) {
+      if (
+        query.length > previousQuery.length &&
+        searchPattern(previousQuery, query)
+      ) {
+        possibleResults = Array.from(searchResults);
+      }
+      // else if (
+      //   query.length < previousQuery.length &&
+      //   searchPattern(query, previousQuery)
+      // ) {
+      //   possibleResults = possibleResults;
+      //   console.log(
+      //     "possible results when going back one step - to previous search results: ",
+      //     possibleResults
+      //   );
+      // }
+      else {
+        possibleResults = recipes;
+      }
+      searchResults.clear();
+    } else {
+      possibleResults = recipes;
     }
 
-    if (searchPattern(query, recipeDescription)) {
-      console.log("found in description of recipe:", recipeID);
-      searchResults.add(recipe);
-      recipeDOMElement.setAttribute("data-found", "true");
-    }
+    for (let i = 0; i < possibleResults.length; i++) {
+      const recipe = possibleResults[i];
+      const recipeID = recipe.id;
+      const recipeDOMElement = document.getElementById(recipeID);
+      recipeDOMElement.setAttribute("data-found", "false");
+      const recipeTitle = recipe.name.toLowerCase();
+      const recipeIngredients = recipe.ingredients;
+      const recipeDescription = recipe.description.toLowerCase();
 
-    recipeIngredients.forEach((element) => {
-      if (searchPattern(query, element.ingredient.toLowerCase())) {
-        console.log("found in ingredients of recipe:", recipeID);
+      if (searchPattern(query, recipeTitle)) {
         searchResults.add(recipe);
         recipeDOMElement.setAttribute("data-found", "true");
       }
-    });
+
+      if (searchPattern(query, recipeDescription)) {
+        searchResults.add(recipe);
+        recipeDOMElement.setAttribute("data-found", "true");
+      }
+
+      recipeIngredients.forEach((element) => {
+        if (searchPattern(query, element.ingredient.toLowerCase())) {
+          searchResults.add(recipe);
+          recipeDOMElement.setAttribute("data-found", "true");
+        }
+      });
+    }
+    console.log("searchresults are:", searchResults);
+    previousQuery = query;
   }
-  previousQuery = query;
-  console.log(searchResults);
+  return searchPossibleResults;
 }
 
-// if previous Query is part of query and query is bigger than previous Query
-// only search visible recipes
+// --------------------- FILTER FUNCTION ----------------------- //
+
+function filterByTags(tag, possibleSearchResults) {
+  const topic = tag.getAttribute("data-topic");
+  if (topic === "ingredients") {
+  } else if (topic === "appliance") {
+  } else if (topic === "ustensils") {
+  }
+}
+
+// ------------------------------------------------------------- //
+// ------------------------ ALGORITHM -------------------------- //
+// ------------------------------------------------------------- //
+
+// ----------------------- KMP ALGORITHM ----------------------- //
+
+// pattern search function
 
 function searchPattern(query, text) {
   const m = query.length;
@@ -80,7 +138,6 @@ function searchPattern(query, text) {
       i++;
       j++;
       if (j === m) {
-        console.log("found at", i - j);
         return true;
       }
     } else if (query[j] !== text[i]) {
@@ -93,6 +150,10 @@ function searchPattern(query, text) {
   }
   return false;
 }
+
+// ------------------- KMP HELPER FUNCTION -------------------- //
+
+// helper function to compute the lsp array for the kmp algorithm
 
 function computeLSPArray(query) {
   // length of the previous longest prefix = suffix
@@ -134,4 +195,51 @@ function computeLSPArray(query) {
 //   // show recipe
 // } else if (recipeDescription.includes(query)) {
 //   // show recipe
+// }
+
+// function runMainSearchQuery(query, recipes) {
+//   let possibleResults;
+//   let searchResults = new Set();
+
+//   if (searchPattern(previousQuery, query)) {
+//     console.log(previousQuery, query);
+//     possibleResults = Array.from(searchResults);
+//     runMainSearchQuery(query, possibleResults);
+//   } else {
+//     possibleResults = recipes;
+//   }
+
+//   for (let i = 0; i < possibleResults.length; i++) {
+//     const recipe = possibleResults[i];
+//     const recipeID = recipe.id;
+//     const recipeDOMElement = document.getElementById(recipeID);
+//     recipeDOMElement.setAttribute("data-found", "false");
+//     const recipeTitle = recipe.name.toLowerCase();
+//     const recipeIngredients = recipe.ingredients;
+//     const recipeDescription = recipe.description.toLowerCase();
+
+//     if (searchPattern(query, recipeTitle)) {
+//       console.log("found in title of recipe:", recipeID);
+//       searchResults.add(recipe);
+//       recipeDOMElement.setAttribute("data-found", "true");
+//     }
+
+//     if (searchPattern(query, recipeDescription)) {
+//       console.log("found in description of recipe:", recipeID);
+//       searchResults.add(recipe);
+//       recipeDOMElement.setAttribute("data-found", "true");
+//     }
+
+//     recipeIngredients.forEach((element) => {
+//       if (searchPattern(query, element.ingredient.toLowerCase())) {
+//         console.log("found in ingredients of recipe:", recipeID);
+//         searchResults.add(recipe);
+//         recipeDOMElement.setAttribute("data-found", "true");
+//       }
+//     });
+//   }
+//   // previousQuery = query;
+//   // console.log(previousQuery);
+//   console.log(searchResults);
+//   console.log("previous Query:", previousQuery);
 // }
