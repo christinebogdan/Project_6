@@ -27,9 +27,13 @@ class recipeCard {
   }
 
   create() {
+    const recipeCol = document.createElement("div");
+    recipeCol.classList.add("col");
+    recipeCol.setAttribute("data-found", "true");
+    recipeCol.id = this.recipe.id;
     // create card container
-    const card = document.createElement("div", "overflow-hidden");
-    card.classList.add("card", "p-0");
+    const card = document.createElement("div");
+    card.classList.add("card", "p-0", "recipe");
     card.setAttribute("data-id", this.recipe.id);
     // create card image container
     const cardImg = document.createElement("div");
@@ -73,6 +77,7 @@ class recipeCard {
     recipeInstructions.textContent = this.recipe.description;
 
     // append all
+    recipeCol.appendChild(card);
     card.appendChild(cardImg);
     card.appendChild(cardBody);
     titleRow.appendChild(recipeTitle);
@@ -82,6 +87,6 @@ class recipeCard {
     cardBody.appendChild(titleRow);
     cardBody.appendChild(textRow);
 
-    return card;
+    return recipeCol;
   }
 }

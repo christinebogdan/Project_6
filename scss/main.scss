@@ -164,5 +164,13 @@ $spacers: (
   text-overflow: ellipsis;
 }
 
+.col[data-found="true"] {
+  display: flex;
+}
+
+.col[data-found="false"] {
+  display: none;
+}
+
 // font-family: 'Lato', sans-serif;
 // font-family: 'Roboto', sans-serif;

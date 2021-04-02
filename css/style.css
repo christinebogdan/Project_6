@@ -16651,4 +16651,12 @@ textarea.form-control-lg {
   text-overflow: ellipsis;
 }
 
+.col[data-found=true] {
+  display: flex;
+}
+
+.col[data-found=false] {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */
