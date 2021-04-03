@@ -22,7 +22,7 @@ const recipeContainer = document.querySelector(".recipes");
 // --------------------- FUNCTION CALLS ------------------------ //
 // ------------------------------------------------------------- //
 
-removeDuplicateValues();
+removeDuplicateValues(recipes);
 
 createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
 createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
@@ -100,8 +100,12 @@ function removeTag(e) {
 // --------------------- REMOVE DUPLICATES --------------------- //
 
 // create arrays of ingredients, appliances and ustensils with no duplicate values
-function removeDuplicateValues() {
-  recipes.forEach((recipe) => {
+function removeDuplicateValues(searchResults) {
+  ingredientSet.clear();
+  applianceSet.clear();
+  ustensilSet.clear();
+
+  searchResults.forEach((recipe) => {
     // fill ingredient set
     recipe.ingredients.forEach((ingredient) => {
       ingredientSet.add(ingredient.ingredient.toLowerCase());
@@ -135,6 +139,8 @@ function createAdvancedSearchOptions(array, topic) {
     domParent = ustensilSearchOptions;
   }
 
+  domParent.innerHTML = "";
+
   array.forEach((element) => {
     let domChild = document.createElement("p");
     domChild.classList.add("col-4", "mb-c7", "filter-option");
@@ -163,6 +169,7 @@ function chooseAdvancedSearchOption(e) {
       topic = "ustensils";
     }
     createTag(filterItem, topic);
+    // filterByTags(filterItem, possibleResults, searchResults);
   }
 }
 
