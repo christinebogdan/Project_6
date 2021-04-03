@@ -1,29 +1,10 @@
 const mainSearch = document.getElementById("searchField");
 
-// mainSearch.addEventListener("input", (e) => {
-//   let query = e.target.value.toLowerCase();
-//   if (query.length >= 3) {
-//     runMainSearchQuery(query, recipes);
-//   }
-//   if (query.length < 3) {
-//     const showAllRecipes = document.querySelectorAll(["[data-found='false']"]);
-//     showAllRecipes.forEach((recipe) => {
-//       recipe.setAttribute("data-found", "true");
-//     });
-//   }
-// });
-
-// ------------------------------------------------------------- //
-// --------------------- FUNCTION CALLS ------------------------ //
-// ------------------------------------------------------------- //
-
-// let searchForQuery = runMainSearchQuery();
-
 // ------------------------------------------------------------- //
 // ----------------------- MAIN SEARCH ------------------------- //
 // ------------------------------------------------------------- //
 
-// ---------------------- EVENT LISTENER ----------------------- //
+// ---------------------- EVENT HANDLING ----------------------- //
 
 mainSearch.addEventListener("input", (e) => {
   let query = e.target.value.toLowerCase();
@@ -103,7 +84,9 @@ function searchPossibleResults(query) {
 // --------------------- ADVANCED SEARCH ----------------------- //
 // ------------------------------------------------------------- //
 
-// ---------------------- EVENT HANDLING ---------------------- //
+// ---------------------- EVENT HANDLING ----------------------- //
+
+// ---------------------- choosing filter ---------------------- //
 
 function chooseAdvancedSearchOption(e) {
   e.stopPropagation();
@@ -112,17 +95,19 @@ function chooseAdvancedSearchOption(e) {
     searchTagContainer.classList.add("mt-4");
   }
   if (target.classList.contains("filter-option")) {
-    let filterItem = target.textContent;
-    let topic;
-    if (target.parentElement === ingredientSearchOptions) {
-      topic = "ingredients";
-    } else if (target.parentElement === applianceSearchOptions) {
-      topic = "appliance";
-    } else if (target.parentElement === ustensilSearchOptions) {
-      topic = "ustensils";
-    }
+    // let filterItem = target.textContent;
+    // let topic;
+    // if (target.parentElement === ingredientSearchOptions) {
+    //   topic = "ingredients";
+    // } else if (target.parentElement === applianceSearchOptions) {
+    //   topic = "appliance";
+    // } else if (target.parentElement === ustensilSearchOptions) {
+    //   topic = "ustensils";
+    // }
+    let filterItem = target.getAttribute("data-filter");
+    let topic = target.getAttribute("data-topic");
     createTag(filterItem, topic);
-    filterByTags(filterItem, topic);
+    filterByTags(filterItem.toLowerCase(), topic);
   }
 }
 
@@ -136,9 +121,24 @@ document
   .getElementById("ustensilsCollapse")
   .addEventListener("click", chooseAdvancedSearchOption);
 
+// --------------------- deleting filter ---------------------- //
+
+function removeTag(e) {
+  e.stopPropagation();
+  let tag = e.target.parentElement;
+  let topic = tag.getAttribute("data-topic");
+  let filterItem = tag.getAttribute("data-filter");
+  tag.remove();
+
+  if (searchTags.length === 0) {
+    searchTagContainer.classList.remove("mt-4");
+  }
+  unfilterByTags(filterItem, topic);
+}
+
 // --------------------- FILTER FUNCTION ----------------------- //
 
-function filterByTags(tag, topic) {
+function filterByTags(filterItem, topic) {
   let possibleResults;
   if (searchResults.size === 0) {
     possibleResults = recipes;
@@ -147,33 +147,55 @@ function filterByTags(tag, topic) {
   }
 
   searchResults.clear();
-  // const topic = tag.getAttribute("data-topic");
-  const filterContent = tag.toLowerCase();
-  if (topic === "ingredients") {
-    possibleResults.forEach((element) => {
-      element.ingredients.forEach((ingredient) => {
-        if (ingredient.ingredient.toLowerCase() === filterContent) {
-          searchResults.add(element);
+
+  // const filterContent = tag.toLowerCase();
+
+  for (let i = 0; i < possibleResults.length; i++) {
+    const recipe = possibleResults[i];
+    const recipeID = recipe.id;
+    const recipeDOMElement = document.getElementById(recipeID);
+    recipeDOMElement.setAttribute("data-found", "false");
+    const recipeUstensils = recipe.ustensils;
+    const recipeIngredients = recipe.ingredients;
+    const recipeAppliance = recipe.appliance.toLowerCase();
+
+    if (topic === "ingredients") {
+      recipeIngredients.forEach((element) => {
+        if (searchPattern(filterItem, element.ingredient.toLowerCase())) {
+          searchResults.add(recipe);
+          recipeDOMElement.setAttribute("data-found", "true");
         }
       });
-    });
-  } else if (topic === "appliance") {
-    possibleResults.forEach((element) => {
-      if (element.appliance.toLowerCase() === filterContent) {
-        searchResults.add(element);
+    }
+
+    if (topic === "appliance") {
+      if (searchPattern(filterItem, recipeAppliance)) {
+        searchResults.add(recipe);
+        recipeDOMElement.setAttribute("data-found", "true");
       }
-    });
-  } else if (topic === "ustensils") {
-    possibleResults.forEach((element) => {
-      element.ustensils.forEach((ustensil) => {
-        if (ustensil.toLowerCase === filterContent) {
-          searchResults.add(element);
+    }
+
+    if (topic === "ustensils") {
+      recipeUstensils.forEach((element) => {
+        if (searchPattern(filterItem, element.toLowerCase())) {
+          searchResults.add(recipe);
+          recipeDOMElement.setAttribute("data-found", "true");
         }
       });
-    });
+    }
   }
 
   console.log(searchResults);
+}
+
+function unfilterByTags(filterItem, topic) {
+  const hiddenRecipes = document.querySelectorAll("[data-found='false']");
+  if (searchTags.length === 0) {
+    hiddenRecipes.forEach((recipe) => {
+      recipe.setAttribute("data-found", "true");
+    });
+    searchResults.clear();
+  }
 }
 
 // ------------------------------------------------------------- //

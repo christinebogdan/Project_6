@@ -52,13 +52,10 @@ function createTag(filterItem, topic) {
   // set color depending on filter topic
   if (topic === "ingredients") {
     tag.classList.add("bg-primary");
-    tag.setAttribute("data-topic", topic);
   } else if (topic === "appliance") {
     tag.classList.add("bg-success");
-    tag.setAttribute("data-topic", topic);
   } else if (topic === "ustensils") {
     tag.classList.add("bg-danger");
-    tag.setAttribute("data-topic", topic);
   }
   // set tag content and x close button
   const tagContent = document.createElement("span");
@@ -70,22 +67,13 @@ function createTag(filterItem, topic) {
   // add event listener to close button
   removeTagButton.addEventListener("click", removeTag);
 
+  tag.setAttribute("data-topic", topic);
+  tag.setAttribute("data-filter", filterItem);
+
   // append all
   tag.appendChild(tagContent);
   tag.appendChild(removeTagButton);
   searchTagContainer.appendChild(tag);
-}
-
-// ---------------------- EVENT HANDLING ----------------------- //
-
-function removeTag(e) {
-  e.stopPropagation();
-  let tag = e.target.parentElement;
-  tag.remove();
-
-  if (searchTags.length === 0) {
-    searchTagContainer.classList.remove("mt-4");
-  }
 }
 
 // --------------- DISPLAY SEARCH TAG CONTAINER ---------------- //
@@ -145,6 +133,8 @@ function createAdvancedSearchOptions(array, topic) {
     let domChild = document.createElement("p");
     domChild.classList.add("col-4", "mb-c7", "filter-option");
     domChild.textContent = element.charAt(0).toUpperCase() + element.slice(1);
+    domChild.setAttribute("data-filter", domChild.textContent);
+    domChild.setAttribute("data-topic", topic);
 
     domParent.appendChild(domChild);
   });
