@@ -152,37 +152,6 @@ function createAdvancedSearchOptions(array, topic) {
 
 // ---------------------- EVENT HANDLING ---------------------- //
 
-function chooseAdvancedSearchOption(e) {
-  e.stopPropagation();
-  let target = e.target;
-  if (searchTags.length === 0) {
-    searchTagContainer.classList.add("mt-4");
-  }
-  if (target.classList.contains("filter-option")) {
-    let filterItem = target.textContent;
-    let topic;
-    if (target.parentElement === ingredientSearchOptions) {
-      topic = "ingredients";
-    } else if (target.parentElement === applianceSearchOptions) {
-      topic = "appliance";
-    } else if (target.parentElement === ustensilSearchOptions) {
-      topic = "ustensils";
-    }
-    createTag(filterItem, topic);
-    // filterByTags(filterItem, possibleResults, searchResults);
-  }
-}
-
-document
-  .getElementById("ingredientsCollapse")
-  .addEventListener("click", chooseAdvancedSearchOption);
-document
-  .getElementById("applianceCollapse")
-  .addEventListener("click", chooseAdvancedSearchOption);
-document
-  .getElementById("ustensilsCollapse")
-  .addEventListener("click", chooseAdvancedSearchOption);
-
 // ------------------------------------------------------------- //
 // ----------------------- RECIPE CARDS ------------------------ //
 // ------------------------------------------------------------- //
