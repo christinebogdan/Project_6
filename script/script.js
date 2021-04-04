@@ -1,7 +1,21 @@
-const searchTagContainer = document.querySelector("#search-tags");
+// ------------------------------------------------------------- //
+// ------------------------ VARIABLES -------------------------- //
+// ------------------------------------------------------------- //
 
+// ------------------------ MAIN SEARCH ------------------------ //
+
+const mainSearch = document.getElementById("searchField");
+let searchResults = new Set();
+let possibleResults = recipes;
+let previousQuery = "";
+
+// ------------------------ SEARCH TAGS ------------------------ //
+
+const searchTagContainer = document.querySelector("#search-tags");
 // HTML Live Collection of search tags
 let searchTags = searchTagContainer.children;
+
+// ----------------- ADVANCED SEARCH OPTIONS ------------------- //
 
 const ingredientSearchOptions = document.querySelector(
   "#ingredientOptions .row"
@@ -16,19 +30,24 @@ let applianceArrayNoDuplicates = [];
 const ustensilSet = new Set();
 let ustensilsArrayNoDuplicates = [];
 
+// ----------------------- RECIPE CARDS ------------------------ //
+
 const recipeContainer = document.querySelector(".recipes");
 
 // ------------------------------------------------------------- //
 // --------------------- FUNCTION CALLS ------------------------ //
 // ------------------------------------------------------------- //
 
-removeDuplicateValues(recipes);
+// ------------------------- CREATE LP ------------------------- //
 
-createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
-createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
-createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
-
+updateAdvancedSearchOptions(recipes);
 createRecipeCards(recipes);
+
+// removeDuplicateValues(recipes);
+
+// createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
+// createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
+// createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
 
 // ------------------------------------------------------------- //
 // ----------------------- SEARCH TAGS ------------------------- //
@@ -80,6 +99,7 @@ function createTag(filterItem, topic) {
 
 // HTML Collection (live list) monitoring amount of tags displayed
 // and showing or hiding searchTagContainer depending on list length
+// added to event listener on close tag button
 
 // ------------------------------------------------------------- //
 // ----------------- ADVANCED SEARCH OPTIONS ------------------- //
@@ -116,7 +136,7 @@ function removeDuplicateValues(searchResults) {
 
 // -------------------- CREATE DOM ELEMENTS -------------------- //
 
-// create dom elements for advanced search based on array and topic
+// create dom elements for advanced search based on noDouplicateArrays and search topic
 function createAdvancedSearchOptions(array, topic) {
   let domParent;
   if (topic === "ingredients") {
@@ -140,7 +160,16 @@ function createAdvancedSearchOptions(array, topic) {
   });
 }
 
-// ---------------------- EVENT HANDLING ---------------------- //
+// --------------- UPDATE ADVANCED SEARCH OPTIONS -------------- //
+
+function updateAdvancedSearchOptions(searchResults) {
+  // remove duplicate ingredients, appliances and ustensils from search results
+  removeDuplicateValues(Array.from(searchResults));
+  // fill advanced search fields with values matching the results of the search query
+  createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
+  createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
+  createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
+}
 
 // ------------------------------------------------------------- //
 // ----------------------- RECIPE CARDS ------------------------ //

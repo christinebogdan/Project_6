@@ -1,5 +1,3 @@
-const mainSearch = document.getElementById("searchField");
-
 // ------------------------------------------------------------- //
 // ----------------------- MAIN SEARCH ------------------------- //
 // ------------------------------------------------------------- //
@@ -9,22 +7,24 @@ const mainSearch = document.getElementById("searchField");
 mainSearch.addEventListener("input", (e) => {
   let query = e.target.value.toLowerCase();
   if (query.length >= 3) {
-    // searchForQuery(query);
     searchPossibleResults(query);
   }
   if (query.length < 3) {
-    const showAllRecipes = document.querySelectorAll(["[data-found='false']"]);
-    showAllRecipes.forEach((recipe) => {
-      recipe.setAttribute("data-found", "true");
-    });
+    showAllRecipes();
   }
 });
 
-// --------------------- SEARCH FUNCTION ---------------------- //
+// --------------------- SHOW ALL RECIPES --------------------- //
 
-let searchResults = new Set();
-let possibleResults = recipes;
-let previousQuery = "";
+function showAllRecipes() {
+  const showAllRecipes = document.querySelectorAll(["[data-found='false']"]);
+  showAllRecipes.forEach((recipe) => {
+    recipe.setAttribute("data-found", "true");
+  });
+  // hier noch searchResults.clear() ?
+}
+
+// --------------------- SEARCH FUNCTION ---------------------- //
 
 function searchPossibleResults(query) {
   console.log("search results before search runs:", searchResults);
@@ -71,13 +71,7 @@ function searchPossibleResults(query) {
   console.log("searchresults are:", searchResults);
   previousQuery = query;
 
-  // update advanced search fields
-  // remove duplicate ingredients, appliances and ustensils from search results
-  removeDuplicateValues(Array.from(searchResults));
-  // fill advanced search fields with values matching the results of the search query
-  createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
-  createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
-  createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
+  updateAdvancedSearchOptions(Array.from(searchResults));
 }
 
 // ------------------------------------------------------------- //
@@ -95,15 +89,6 @@ function chooseAdvancedSearchOption(e) {
     searchTagContainer.classList.add("mt-4");
   }
   if (target.classList.contains("filter-option")) {
-    // let filterItem = target.textContent;
-    // let topic;
-    // if (target.parentElement === ingredientSearchOptions) {
-    //   topic = "ingredients";
-    // } else if (target.parentElement === applianceSearchOptions) {
-    //   topic = "appliance";
-    // } else if (target.parentElement === ustensilSearchOptions) {
-    //   topic = "ustensils";
-    // }
     let filterItem = target.getAttribute("data-filter");
     let topic = target.getAttribute("data-topic");
     createTag(filterItem, topic);
@@ -133,7 +118,7 @@ function removeTag(e) {
   if (searchTags.length === 0) {
     searchTagContainer.classList.remove("mt-4");
   }
-  unfilterByTags(filterItem, topic);
+  unfilterByTags();
 }
 
 // --------------------- FILTER FUNCTION ----------------------- //
@@ -144,11 +129,8 @@ function filterByTags(filterItem, topic) {
     possibleResults = recipes;
   } else {
     possibleResults = Array.from(searchResults);
+    searchResults.clear();
   }
-
-  searchResults.clear();
-
-  // const filterContent = tag.toLowerCase();
 
   for (let i = 0; i < possibleResults.length; i++) {
     const recipe = possibleResults[i];
@@ -157,7 +139,7 @@ function filterByTags(filterItem, topic) {
     recipeDOMElement.setAttribute("data-found", "false");
     const recipeUstensils = recipe.ustensils;
     const recipeIngredients = recipe.ingredients;
-    const recipeAppliance = recipe.appliance.toLowerCase();
+    const recipeAppliance = recipe.appliance;
 
     if (topic === "ingredients") {
       recipeIngredients.forEach((element) => {
@@ -169,7 +151,7 @@ function filterByTags(filterItem, topic) {
     }
 
     if (topic === "appliance") {
-      if (searchPattern(filterItem, recipeAppliance)) {
+      if (searchPattern(filterItem, recipeAppliance.toLowerCase())) {
         searchResults.add(recipe);
         recipeDOMElement.setAttribute("data-found", "true");
       }
@@ -184,17 +166,30 @@ function filterByTags(filterItem, topic) {
       });
     }
   }
-
+  updateAdvancedSearchOptions(Array.from(searchResults));
   console.log(searchResults);
 }
 
-function unfilterByTags(filterItem, topic) {
-  const hiddenRecipes = document.querySelectorAll("[data-found='false']");
+function unfilterByTags() {
+  searchResults.clear();
   if (searchTags.length === 0) {
-    hiddenRecipes.forEach((recipe) => {
-      recipe.setAttribute("data-found", "true");
+    if (mainSearch.value < 3) {
+      showAllRecipes();
+    } else {
+      searchPossibleResults(mainSearch.value);
+    }
+  } else {
+    if (mainSearch.length > 3) {
+      searchPossibleResults(mainSearch.value);
+    }
+    console.log(Array.from(searchTags));
+    Array.from(searchTags).forEach((tag) => {
+      console.log(searchResults);
+      const filterItem = tag.getAttribute("data-filter");
+      const topic = tag.getAttribute("data-topic");
+      filterByTags(filterItem, topic);
+      console.log(searchResults);
     });
-    searchResults.clear();
   }
 }
 
