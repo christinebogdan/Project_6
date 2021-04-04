@@ -17,11 +17,17 @@ let searchTags = searchTagContainer.children;
 
 // ----------------- ADVANCED SEARCH OPTIONS ------------------- //
 
-const ingredientSearchOptions = document.querySelector(
+const ingredientsSearchInput = document.querySelector(
+  "#ingredientsSearchInput"
+);
+const applianceSearchInput = document.querySelector("#applianceSearchInput");
+const ustensilsSearchInput = document.querySelector("#ustensilsSearchInput");
+
+const ingredientsSearchOptions = document.querySelector(
   "#ingredientOptions .row"
 );
 const applianceSearchOptions = document.querySelector("#applianceOptions .row");
-const ustensilSearchOptions = document.querySelector("#ustensilOptions .row");
+const ustensilsSearchOptions = document.querySelector("#ustensilOptions .row");
 
 const ingredientSet = new Set();
 let ingredientsArrayNoDuplicates = [];
@@ -87,7 +93,7 @@ function createTag(filterItem, topic) {
   removeTagButton.addEventListener("click", removeTag);
 
   tag.setAttribute("data-topic", topic);
-  tag.setAttribute("data-filter", filterItem);
+  tag.setAttribute("data-filter", filterItem.toLowerCase());
 
   // append all
   tag.appendChild(tagContent);
@@ -138,13 +144,14 @@ function removeDuplicateValues(searchResults) {
 
 // create dom elements for advanced search based on noDouplicateArrays and search topic
 function createAdvancedSearchOptions(array, topic) {
+  // let domParent = topic;
   let domParent;
   if (topic === "ingredients") {
-    domParent = ingredientSearchOptions;
+    domParent = ingredientsSearchOptions;
   } else if (topic === "appliance") {
     domParent = applianceSearchOptions;
   } else if (topic === "ustensils") {
-    domParent = ustensilSearchOptions;
+    domParent = ustensilsSearchOptions;
   }
 
   domParent.innerHTML = "";
@@ -153,7 +160,7 @@ function createAdvancedSearchOptions(array, topic) {
     let domChild = document.createElement("p");
     domChild.classList.add("col-4", "mb-c7", "filter-option");
     domChild.textContent = element.charAt(0).toUpperCase() + element.slice(1);
-    domChild.setAttribute("data-filter", domChild.textContent);
+    domChild.setAttribute("data-filter", domChild.textContent.toLowerCase());
     domChild.setAttribute("data-topic", topic);
 
     domParent.appendChild(domChild);
@@ -166,6 +173,11 @@ function updateAdvancedSearchOptions(searchResults) {
   // remove duplicate ingredients, appliances and ustensils from search results
   removeDuplicateValues(Array.from(searchResults));
   // fill advanced search fields with values matching the results of the search query
+
+  // createAdvancedSearchOptions(
+  //   eval(`${topic} + "ArrayNoDuplicates"`, eval(`${topic} + "SearchOptions`))
+  // );
+
   createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
   createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
   createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
