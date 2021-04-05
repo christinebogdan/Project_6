@@ -10,7 +10,17 @@ mainSearch.addEventListener("input", (e) => {
     searchPossibleResults(query);
   }
   if (query.length < 3) {
-    showAllRecipes();
+    noMatchesDisplay.style.display = "none";
+    if (searchTags.length === 0) {
+      showAllRecipes();
+    } else {
+      Array.from(searchTags).forEach((tag) => {
+        console.log(searchResults);
+        const filterItem = tag.getAttribute("data-filter").toLowerCase();
+        const topic = tag.getAttribute("data-topic");
+        filterByTags(filterItem, topic);
+      });
+    }
   }
 });
 
@@ -21,6 +31,7 @@ function showAllRecipes() {
   showAllRecipes.forEach((recipe) => {
     recipe.setAttribute("data-found", "true");
   });
+  updateAdvancedSearchOptions(recipes);
   // hier noch searchResults.clear() ?
 }
 
@@ -28,8 +39,12 @@ function showAllRecipes() {
 
 function searchPossibleResults(query) {
   console.log("search results before search runs:", searchResults);
+  noMatchesDisplay.style.display = "none";
+
   if (searchResults.size > 0) {
-    if (
+    if (searchTags.length > 0 && query.length === 3) {
+      possibleResults = Array.from(searchResults);
+    } else if (
       query.length > previousQuery.length &&
       searchPattern(previousQuery, query)
     ) {
@@ -41,6 +56,8 @@ function searchPossibleResults(query) {
   } else {
     possibleResults = recipes;
   }
+
+  console.log("possibleResults for main search:", possibleResults);
 
   for (let i = 0; i < possibleResults.length; i++) {
     const recipe = possibleResults[i];
@@ -71,6 +88,9 @@ function searchPossibleResults(query) {
   console.log("searchresults are:", searchResults);
   previousQuery = query;
 
+  if (searchResults.size === 0) {
+    noMatchesDisplay.style.display = "flex";
+  }
   updateAdvancedSearchOptions(Array.from(searchResults));
 }
 
@@ -169,8 +189,9 @@ function removeTag(e) {
   unfilterByTags();
 }
 
-// --------------------- FILTER FUNCTION ----------------------- //
+// --------------------- TAG FILTER FUNCTION -------------------- //
 
+// add filter tag
 function filterByTags(filterItem, topic) {
   let possibleResults;
   if (searchResults.size === 0) {
@@ -211,9 +232,11 @@ function filterByTags(filterItem, topic) {
     }
   }
   updateAdvancedSearchOptions(Array.from(searchResults));
-  console.log(searchResults);
+
+  console.log("filter tag search results:", searchResults);
 }
 
+// remove filter tag
 function unfilterByTags() {
   searchResults.clear();
   if (searchTags.length === 0) {
@@ -301,8 +324,8 @@ function computeLSPArray(query) {
       i++;
     } else {
       if (len != 0) {
-        len = len - 1;
-        // or len = lps[len-1];
+        // or len = len - 1;
+        len = lps[len - 1];
       } else {
         lps[i] = 0;
         i++;
@@ -312,132 +335,3 @@ function computeLSPArray(query) {
 
   return lps;
 }
-
-// if (recipeTitle.includes(query)) {
-//   // show recipe
-// } else if (recipeIngredients.includes(query)) {
-//   // show recipe
-// } else if (recipeDescription.includes(query)) {
-//   // show recipe
-// }
-
-// function runMainSearchQuery(query, recipes) {
-//   let possibleResults;
-//   let searchResults = new Set();
-
-//   if (searchPattern(previousQuery, query)) {
-//     console.log(previousQuery, query);
-//     possibleResults = Array.from(searchResults);
-//     runMainSearchQuery(query, possibleResults);
-//   } else {
-//     possibleResults = recipes;
-//   }
-
-//   for (let i = 0; i < possibleResults.length; i++) {
-//     const recipe = possibleResults[i];
-//     const recipeID = recipe.id;
-//     const recipeDOMElement = document.getElementById(recipeID);
-//     recipeDOMElement.setAttribute("data-found", "false");
-//     const recipeTitle = recipe.name.toLowerCase();
-//     const recipeIngredients = recipe.ingredients;
-//     const recipeDescription = recipe.description.toLowerCase();
-
-//     if (searchPattern(query, recipeTitle)) {
-//       console.log("found in title of recipe:", recipeID);
-//       searchResults.add(recipe);
-//       recipeDOMElement.setAttribute("data-found", "true");
-//     }
-
-//     if (searchPattern(query, recipeDescription)) {
-//       console.log("found in description of recipe:", recipeID);
-//       searchResults.add(recipe);
-//       recipeDOMElement.setAttribute("data-found", "true");
-//     }
-
-//     recipeIngredients.forEach((element) => {
-//       if (searchPattern(query, element.ingredient.toLowerCase())) {
-//         console.log("found in ingredients of recipe:", recipeID);
-//         searchResults.add(recipe);
-//         recipeDOMElement.setAttribute("data-found", "true");
-//       }
-//     });
-//   }
-//   // previousQuery = query;
-//   // console.log(previousQuery);
-//   console.log(searchResults);
-//   console.log("previous Query:", previousQuery);
-// }
-
-// else if (
-//   query.length < previousQuery.length &&
-//   searchPattern(query, previousQuery)
-// ) {
-//   possibleResults = possibleResults;
-//   console.log(
-//     "possible results when going back one step - to previous search results: ",
-//     possibleResults
-//   );
-// }
-
-// function runMainSearchQuery() {
-//   let searchResults = new Set();
-//   let possibleResults;
-//   let previousQuery = "";
-
-//   // use closure to keep track of search results and previous search query
-//   function searchPossibleResults(query) {
-//     console.log("search results before search runs:", searchResults);
-//     if (searchResults.size > 0) {
-//       if (
-//         query.length > previousQuery.length &&
-//         searchPattern(previousQuery, query)
-//       ) {
-//         possibleResults = Array.from(searchResults);
-//       } else {
-//         possibleResults = recipes;
-//       }
-//       searchResults.clear();
-//     } else {
-//       possibleResults = recipes;
-//     }
-
-//     for (let i = 0; i < possibleResults.length; i++) {
-//       const recipe = possibleResults[i];
-//       const recipeID = recipe.id;
-//       const recipeDOMElement = document.getElementById(recipeID);
-//       recipeDOMElement.setAttribute("data-found", "false");
-//       const recipeTitle = recipe.name.toLowerCase();
-//       const recipeIngredients = recipe.ingredients;
-//       const recipeDescription = recipe.description.toLowerCase();
-
-//       if (searchPattern(query, recipeTitle)) {
-//         searchResults.add(recipe);
-//         recipeDOMElement.setAttribute("data-found", "true");
-//       }
-
-//       if (searchPattern(query, recipeDescription)) {
-//         searchResults.add(recipe);
-//         recipeDOMElement.setAttribute("data-found", "true");
-//       }
-
-//       recipeIngredients.forEach((element) => {
-//         if (searchPattern(query, element.ingredient.toLowerCase())) {
-//           searchResults.add(recipe);
-//           recipeDOMElement.setAttribute("data-found", "true");
-//         }
-//       });
-//     }
-//     console.log("searchresults are:", searchResults);
-//     previousQuery = query;
-
-//     // update advanced search fields
-//     // remove duplicate ingredients, appliances and ustensils from search results
-//     removeDuplicateValues(Array.from(searchResults));
-//     // fill advanced search fields with values matching the results of the search query
-//     createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
-//     createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
-//     createAdvancedSearchOptions(ustensilsArrayNoDuplicates, "ustensils");
-//   }
-
-//   return searchPossibleResults;
-// }

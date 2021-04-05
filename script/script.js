@@ -39,6 +39,7 @@ let ustensilsArrayNoDuplicates = [];
 // ----------------------- RECIPE CARDS ------------------------ //
 
 const recipeContainer = document.querySelector(".recipes");
+const noMatchesDisplay = document.querySelector("#nomatch");
 
 // ------------------------------------------------------------- //
 // --------------------- FUNCTION CALLS ------------------------ //

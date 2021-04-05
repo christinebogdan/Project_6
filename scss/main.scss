@@ -118,6 +118,10 @@ $spacers: (
 
 // -------- CARD -------- //
 
+#nomatch {
+  display: none;
+}
+
 .card {
   height: 364px;
   border-radius: 5px;

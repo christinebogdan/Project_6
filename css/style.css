@@ -16606,6 +16606,10 @@ textarea.form-control-lg {
   border-radius: 5px;
 }
 
+#nomatch {
+  display: none;
+}
+
 .card {
   height: 364px;
   border-radius: 5px;
