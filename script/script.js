@@ -14,6 +14,7 @@ let previousQuery = "";
 const searchTagContainer = document.querySelector("#search-tags");
 // HTML Live Collection of search tags
 let searchTags = searchTagContainer.children;
+let searchResultsFilterTags;
 
 // ----------------- ADVANCED SEARCH OPTIONS ------------------- //
 

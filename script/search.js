@@ -14,6 +14,7 @@ mainSearch.addEventListener("input", (e) => {
     if (searchTags.length === 0) {
       showAllRecipes();
     } else {
+      searchResults.clear();
       Array.from(searchTags).forEach((tag) => {
         console.log(searchResults);
         const filterItem = tag.getAttribute("data-filter").toLowerCase();
@@ -44,17 +45,41 @@ function searchPossibleResults(query) {
   if (searchResults.size > 0) {
     if (searchTags.length > 0 && query.length === 3) {
       possibleResults = Array.from(searchResults);
+      console.log(1);
+    } else if (searchTags.length > 0 && query.length < previousQuery.length) {
+      searchResults.clear();
+      Array.from(searchTags).forEach((tag) => {
+        console.log(searchResults);
+        const filterItem = tag.getAttribute("data-filter").toLowerCase();
+        const topic = tag.getAttribute("data-topic");
+        filterByTags(filterItem, topic);
+      });
+      possibleResults = Array.from(searchResults);
+      console.log("these are the possible results", possibleResults);
     } else if (
       query.length > previousQuery.length &&
       searchPattern(previousQuery, query)
     ) {
       possibleResults = Array.from(searchResults);
+      console.log(2);
     } else {
       possibleResults = recipes;
+      console.log(3);
     }
     searchResults.clear();
   } else {
-    possibleResults = recipes;
+    if (searchTags.length > 0) {
+      Array.from(searchTags).forEach((tag) => {
+        console.log(searchResults);
+        const filterItem = tag.getAttribute("data-filter").toLowerCase();
+        const topic = tag.getAttribute("data-topic");
+        filterByTags(filterItem, topic);
+      });
+      possibleResults = Array.from(searchResults);
+    } else {
+      possibleResults = recipes;
+      console.log(4);
+    }
   }
 
   console.log("possibleResults for main search:", possibleResults);
@@ -232,6 +257,7 @@ function filterByTags(filterItem, topic) {
     }
   }
   updateAdvancedSearchOptions(Array.from(searchResults));
+  searchResultsFilterTags = Array.from(searchResults);
 
   console.log("filter tag search results:", searchResults);
 }
@@ -240,13 +266,13 @@ function filterByTags(filterItem, topic) {
 function unfilterByTags() {
   searchResults.clear();
   if (searchTags.length === 0) {
-    if (mainSearch.value < 3) {
+    if (mainSearch.value.length < 3) {
       showAllRecipes();
     } else {
       searchPossibleResults(mainSearch.value);
     }
   } else {
-    if (mainSearch.length > 3) {
+    if (mainSearch.value.length > 2) {
       searchPossibleResults(mainSearch.value);
     }
     console.log(Array.from(searchTags));
