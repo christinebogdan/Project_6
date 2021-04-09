@@ -249,10 +249,8 @@ function unfilterByTags(filterItem) {
     if (mainSearch.value.length > 2) {
       searchPossibleResults(mainSearch.value);
       // getFilterTagsSearchResults();
-      console.log("5.1");
     } else {
       getFilterTagsSearchResults();
-      console.log("5.2");
     }
   }
 }
@@ -260,7 +258,6 @@ function unfilterByTags(filterItem) {
 // run filter tag(s) on recipe basis
 function getFilterTagsSearchResults() {
   Array.from(searchTags).forEach((tag) => {
-    console.log(searchResults);
     const filterItem = tag.getAttribute("data-filter").toLowerCase();
     const topic = tag.getAttribute("data-topic");
     filterByTags(filterItem, topic);
