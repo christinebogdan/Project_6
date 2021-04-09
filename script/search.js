@@ -14,12 +14,7 @@ mainSearch.addEventListener("input", (e) => {
       showAllRecipes();
     } else {
       searchResults.clear();
-      Array.from(searchTags).forEach((tag) => {
-        console.log(searchResults);
-        const filterItem = tag.getAttribute("data-filter").toLowerCase();
-        const topic = tag.getAttribute("data-topic");
-        filterByTags(filterItem, topic);
-      });
+      getFilterTagsSearchResults();
     }
   }
 });
@@ -32,95 +27,41 @@ function showAllRecipes() {
     recipe.setAttribute("data-found", "true");
   });
   updateAdvancedSearchOptions(recipes);
-  // muss das wieder weg?
   searchResults.clear();
 }
 
 // --------------------- SEARCH FUNCTION ---------------------- //
 
 function searchPossibleResults(query) {
-  console.log("search results before main search runs:", searchResults);
   noMatchesDisplay.style.display = "none";
 
   // muss search resettet werden, wenn keine search results?
 
-  // SEARCH RESULT === 0
+  // SEARCH RESULT === 0 || filter tags inactive | filter tags active
   if (searchResults.size === 0) {
-    // keine Filter Tags aktiv
     if (searchTags.length === 0) {
       possibleResults = recipes;
-      console.log("1.1");
-    }
-    // Filter Tags aktiv
-    else {
+    } else {
       getFilterTagsSearchResults();
       possibleResults = Array.from(searchResults);
-      console.log("1.2");
     }
   }
 
-  // SEARCH RESULT > 0
-  else if (searchResults.size > 0) {
-    // wenn query weiterführung von previous query
+  // SEARCH RESULT > 0 || continued typing | different query with / filter tags inactive / filter tags active
+  else {
     if (searchPattern(previousQuery, query)) {
       possibleResults = Array.from(searchResults);
-      console.log("2.1");
-    }
-    // wenn query keine weiterführung von previous query (weil query angepasst oder query kleiner als previous query)
-    else {
-      // keine Filter Tags aktiv
+    } else {
       if (searchTags.length === 0) {
         possibleResults = recipes;
-        console.log("2.2.1");
-      }
-      // Filter Tags aktiv
-      else {
+      } else {
         searchResults.clear();
         getFilterTagsSearchResults();
         possibleResults = Array.from(searchResults);
-        console.log("2.2.2");
       }
     }
     searchResults.clear();
   }
-
-  // if (searchResults.size > 0) {
-  //   // have query.length > 2
-  //   if (searchTags.length > 0 && query.length === 3) {
-  //     possibleResults = Array.from(searchResults);
-  //   } else if (searchTags.length > 0 && query.length < previousQuery.length) {
-  //     searchResults.clear();
-  //     Array.from(searchTags).forEach((tag) => {
-  //       console.log(searchResults);
-  //       const filterItem = tag.getAttribute("data-filter").toLowerCase();
-  //       const topic = tag.getAttribute("data-topic");
-  //       filterByTags(filterItem, topic);
-  //     });
-  //     possibleResults = Array.from(searchResults);
-  //   } else if (
-  //     query.length > previousQuery.length &&
-  //     searchPattern(previousQuery, query)
-  //   ) {
-  //     possibleResults = Array.from(searchResults);
-  //   } else {
-  //     possibleResults = recipes;
-  //   }
-  //   searchResults.clear();
-  // } else {
-  //   if (searchTags.length > 0) {
-  //     Array.from(searchTags).forEach((tag) => {
-  //       console.log(searchResults);
-  //       const filterItem = tag.getAttribute("data-filter").toLowerCase();
-  //       const topic = tag.getAttribute("data-topic");
-  //       filterByTags(filterItem, topic);
-  //     });
-  //     possibleResults = Array.from(searchResults);
-  //   } else {
-  //     possibleResults = recipes;
-  //   }
-  // }
-  console.log(query);
-  console.log("possible results for main search:", possibleResults);
 
   for (let i = 0; i < possibleResults.length; i++) {
     const recipe = possibleResults[i];
@@ -134,21 +75,18 @@ function searchPossibleResults(query) {
     if (searchPattern(query, recipeTitle)) {
       searchResults.add(recipe);
       recipeDOMElement.setAttribute("data-found", "true");
-    }
-
-    if (searchPattern(query, recipeDescription)) {
+    } else if (searchPattern(query, recipeDescription)) {
       searchResults.add(recipe);
       recipeDOMElement.setAttribute("data-found", "true");
+    } else {
+      recipeIngredients.forEach((element) => {
+        if (searchPattern(query, element.ingredient.toLowerCase())) {
+          searchResults.add(recipe);
+          recipeDOMElement.setAttribute("data-found", "true");
+        }
+      });
     }
-
-    recipeIngredients.forEach((element) => {
-      if (searchPattern(query, element.ingredient.toLowerCase())) {
-        searchResults.add(recipe);
-        recipeDOMElement.setAttribute("data-found", "true");
-      }
-    });
   }
-  console.log("main search results are:", searchResults);
   previousQuery = query;
 
   if (searchResults.size === 0) {
@@ -200,16 +138,6 @@ ingredientsSearchInput.addEventListener("input", advancedInputSearch);
 applianceSearchInput.addEventListener("input", advancedInputSearch);
 ustensilsSearchInput.addEventListener("input", advancedInputSearch);
 
-// -------------- show all advanced search options -------------- //
-
-// function showAllOptions() {
-//   const showAllOptions = document.querySelectorAll(["[data-found='false']"]);
-//   showAllRecipes.forEach((recipe) => {
-//     recipe.setAttribute("data-found", "true");
-//   });
-//   // hier noch searchResults.clear() ?
-// }
-
 // ---------------------- choosing filter ---------------------- //
 
 function chooseAdvancedSearchOption(e) {
@@ -242,14 +170,13 @@ document
 function removeTag(e) {
   e.stopPropagation();
   let tag = e.target.parentElement;
-  // let topic = tag.getAttribute("data-topic");
-  // let filterItem = tag.getAttribute("data-filter");
+  let filterItem = tag.getAttribute("data-filter");
   tag.remove();
 
   if (searchTags.length === 0) {
     searchTagContainer.classList.remove("mt-4");
   }
-  unfilterByTags();
+  unfilterByTags(filterItem);
 }
 
 // --------------------- TAG FILTER FUNCTION -------------------- //
@@ -259,14 +186,10 @@ function filterByTags(filterItem, topic) {
   let possibleResults;
   if (searchResults.size === 0) {
     possibleResults = recipes;
-    console.log("3.1");
   } else {
     possibleResults = Array.from(searchResults);
     searchResults.clear();
-    console.log("3.2");
   }
-
-  console.log("possible search results before tag filter:", possibleResults);
 
   for (let i = 0; i < possibleResults.length; i++) {
     const recipe = possibleResults[i];
@@ -298,80 +221,41 @@ function filterByTags(filterItem, topic) {
       });
     }
   }
-  const filter = document.querySelector(
-    `.filter-option[data-filter='${filterItem}']`
+
+  updateAdvancedSearchOptions(Array.from(searchResults));
+  const tag = document.querySelector(
+    `.filter-option[data-filter="${filterItem}"]`
   );
 
-  filter.style.display = "none";
-  updateAdvancedSearchOptions(Array.from(searchResults));
-
-  // do I need this?
-  searchResultsFilterTags = Array.from(searchResults);
-
-  console.log(filterItem);
-  console.log("results of filter tag search:", searchResults);
+  tag.setAttribute("data-hide", "true");
+  console.log(tag);
 }
 
-function unfilterByTags() {
+function unfilterByTags(filterItem) {
   // search Results zurücksetzen, da Suche von vorne laufen muss
   searchResults.clear();
 
-  // wenn es das letzte filter tag war
+  // if no filter tags left || main search > 2 | main search < 3
   if (searchTags.length === 0) {
-    // wenn in der main search etwas steht
     if (mainSearch.value.length > 2) {
       searchPossibleResults(mainSearch.value);
-      console.log("4.1");
-    }
-    // wenn in der main search nichts mehr steht
-    else {
+    } else {
       showAllRecipes();
-      console.log("4.2");
     }
   }
 
-  // wenn es weitere filter tags gibt
+  // if filter tags left || main search > 2 | main search < 3
   else {
-    // wenn in der main search etwas steht
     if (mainSearch.value.length > 2) {
       searchPossibleResults(mainSearch.value);
       // getFilterTagsSearchResults();
       console.log("5.1");
-    }
-    // wenn in der main search nichts steht
-    else {
+    } else {
       getFilterTagsSearchResults();
       console.log("5.2");
     }
   }
 }
-
-// // remove filter tag
-// function unfilterByTags() {
-//   // searchResults.clear();
-//   if (searchTags.length === 0) {
-//     if (mainSearch.value.length < 3) {
-//       showAllRecipes();
-//     } else {
-//       // neu eingefügt
-//       searchResults.clear();
-//       searchPossibleResults(mainSearch.value);
-//     }
-//   } else {
-//     // neu eingefügt
-//     searchResults.clear();
-//     if (mainSearch.value.length > 2) {
-//       searchPossibleResults(mainSearch.value);
-//     }
-//     console.log(Array.from(searchTags));
-//     Array.from(searchTags).forEach((tag) => {
-//       console.log(searchResults);
-//       const filterItem = tag.getAttribute("data-filter").toLowerCase();
-//       const topic = tag.getAttribute("data-topic");
-//       filterByTags(filterItem, topic);
-//     });
-//   }
-// }
 
 // run filter tag(s) on recipe basis
 function getFilterTagsSearchResults() {

@@ -16663,4 +16663,8 @@ textarea.form-control-lg {
   display: none;
 }
 
+.filter-option[data-hide=true] {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */

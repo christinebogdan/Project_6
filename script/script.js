@@ -164,6 +164,7 @@ function createAdvancedSearchOptions(array, topic) {
     domChild.textContent = element.charAt(0).toUpperCase() + element.slice(1);
     domChild.setAttribute("data-filter", domChild.textContent.toLowerCase());
     domChild.setAttribute("data-topic", topic);
+    domChild.setAttribute("data-hide", "false");
 
     domParent.appendChild(domChild);
   });
@@ -175,10 +176,6 @@ function updateAdvancedSearchOptions(searchResults) {
   // remove duplicate ingredients, appliances and ustensils from search results
   removeDuplicateValues(Array.from(searchResults));
   // fill advanced search fields with values matching the results of the search query
-
-  // createAdvancedSearchOptions(
-  //   eval(`${topic} + "ArrayNoDuplicates"`, eval(`${topic} + "SearchOptions`))
-  // );
 
   createAdvancedSearchOptions(ingredientsArrayNoDuplicates, "ingredients");
   createAdvancedSearchOptions(applianceArrayNoDuplicates, "appliance");
