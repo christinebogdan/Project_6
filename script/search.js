@@ -340,3 +340,44 @@ function computeLSPArray(query) {
 
   return lps;
 }
+
+// ---------------------- NAIVE ALGORITHM ---------------------- //
+// function searchPatternNaive(query, text) {
+//   const m = query.length;
+//   const n = text.length;
+
+//   // loop to slide query one by one through text
+//   for (let i = 0; i <= n - m; i++) {
+//     let j;
+//     // starting from current index i, check for match
+//     for (j = 0; j < m; j++) {
+//       if (text[i + j] != query[j]) {
+//         break;
+//       }
+//     }
+//     if (j === m - 1) {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
+
+function searchPatternNaive(query, text) {
+  const m = query.length;
+  const n = text.length;
+
+  for (let i = 0; i < n - m; i++) {
+    let j = 0;
+
+    while (j < m) {
+      if (text[i + j] != query[j]) {
+        break;
+      }
+      j++;
+    }
+    if (j === m) {
+      return true;
+    }
+  }
+  return false;
+}
