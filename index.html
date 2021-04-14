@@ -27,9 +27,27 @@
         class="mx-auto d-block mt-5"
       />
     </header>
-
     <!-- SEARCH INPUT FIELD -->
+
     <div class="container mt-3">
+      <div class="row">
+        <div class="input-group input-group-lg mb-1">
+          <!-- used to be mb-3 for input group -->
+          <input
+            type="text"
+            class="form-control border-0"
+            aria-label="Search for ingredient, device, ustensil or recipe"
+            placeholder="Search an ingredient, device, ustensil or a recipe"
+            id="searchField"
+          />
+          <span class="input-group-text border-0"
+            ><i class="bi bi-search fs-2"></i
+          ></span>
+        </div>
+      </div>
+
+      <!-- SEARCH INPUT FIELD -->
+      <!-- <div class="container mt-3">
       <div class="row">
         <input
           type="text"
@@ -37,8 +55,8 @@
           id="searchField"
           placeholder="Search an ingredient, device, ustensil or a recipe"
           aria-label="Search for ingredient, device, ustensil or recipe"
-        />
-      </div>
+        /><i class="bi bi-search"></i>
+      </div> -->
 
       <!-- SEARCH TAGS -->
       <div class="row" id="search-tags">
@@ -50,10 +68,21 @@
       </div>
 
       <!-- FILTER BUTTONS -->
-
-      <div class="filter-buttons p-0 mt-3 d-flex">
+      <div
+        class="d-flex flex-wrap justify-content-around justify-content-md-start mt-sm-3 px-0"
+        id="filter-buttons"
+      >
+        <!-- <div class="filter-buttons p-0 mt-0 d-flex"> -->
         <!-- INGREDIENTS -->
-        <div class="filter-button position-relative p-0 mt-3">
+        <div
+          class="filter-button position-relative p-0 mt-3 mt-sm-0 me-md-3"
+          id="ingredientsButton"
+        >
+          <!-- <div
+          class="filter-button col-12 col-sm-4 col-md-3 col-xl-2 position-relative p-0"
+          id="ingredientsButton"
+        > -->
+          <!-- used to be mt-3 for filter-button -->
           <!-- button -->
           <button
             class="btn btn-primary text-white d-flex justify-content-between align-items-center px-3"
@@ -94,13 +123,17 @@
               data-bs-toggle="collapse"
               data-bs-target="#ingredientsCollapse.show"
             >
+              <!-- <div class="d-flex flex-wrap"></div> -->
               <div class="row"></div>
             </div>
           </div>
         </div>
 
         <!-- DEVICE -->
-        <div class="filter-button position-relative p-0 mt-3">
+        <!-- <div
+          class="filter-button col-12 col-sm-4 col-md-3 col-xl-2 position-relative p-0"
+        > -->
+        <div class="filter-button position-relative p-0 mt-3 mt-sm-0 me-md-3">
           <!-- button -->
           <button
             class="btn btn-success text-white d-flex justify-content-between align-items-center px-3"
@@ -147,7 +180,10 @@
         </div>
 
         <!-- USTENSILS -->
-        <div class="filter-button position-relative p-0 mt-3">
+        <!-- <div
+          class="filter-button col-12 col-sm-4 col-md-3 col-xl-2 position-relative p-0"
+        > -->
+        <div class="filter-button position-relative p-0 mt-3 mt-sm-0">
           <!-- button -->
           <button
             class="btn btn-danger text-white d-flex justify-content-between align-items-center px-3"

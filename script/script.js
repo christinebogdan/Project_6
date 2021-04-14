@@ -160,7 +160,13 @@ function createAdvancedSearchOptions(array, topic) {
 
   array.forEach((element) => {
     let domChild = document.createElement("p");
-    domChild.classList.add("col-4", "mb-c7", "filter-option");
+    domChild.classList.add(
+      "col-xs-12",
+      "col-md-4",
+      "col-sm-6",
+      "mb-c7",
+      "filter-option"
+    );
     domChild.textContent = element.charAt(0).toUpperCase() + element.slice(1);
     domChild.setAttribute("data-filter", domChild.textContent.toLowerCase());
     domChild.setAttribute("data-topic", topic);
@@ -196,3 +202,24 @@ function createRecipeCards(data) {
     recipeContainer.appendChild(recipeCard);
   });
 }
+
+// ------------------------------------------------------------- //
+// ----------------------- BUTTONS ------------------------ //
+// ------------------------------------------------------------- //
+
+// const ingredientsButton = document.querySelector("#ingredientsButton");
+// const ingredientsCollapse = document.querySelector("#ingredientsCollapse");
+
+// ingredientsCollapse.addEventListener("show.bs.collapse", changeLayout);
+// ingredientsCollapse.addEventListener("hide.bs.collapse", changeLayout);
+
+// function changeLayout() {
+//   ingredientsButton.classList.remove("col-sm-4", "col-md-3", "col-xl-2");
+
+//   ingredientsButton.classList.add("col-sm-10", "col-md-8", "col-xl-6");
+// }
+
+// function changeLayoutBack() {
+//   ingredientsButton.classList.add("col-sm-4", "col-md-3", "col-xl-2");
+//   ingredientsButton.classList.remove("col-sm-10", "col-md-8, col-xl-6");
+// }

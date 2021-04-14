@@ -28,19 +28,24 @@ class recipeCard {
 
   create() {
     const recipeCol = document.createElement("div");
-    recipeCol.classList.add("col");
+    recipeCol.classList.add("col-12", "col-md-6", "col-lg-4");
     recipeCol.setAttribute("data-found", "true");
     recipeCol.id = this.recipe.id;
     // create card container
     const card = document.createElement("div");
-    card.classList.add("card", "p-0", "recipe");
+    card.classList.add("card", "p-0", "recipe", "border-0");
     card.setAttribute("data-id", this.recipe.id);
     // create card image container
     const cardImg = document.createElement("div");
-    cardImg.classList.add("card-img-top");
+    cardImg.classList.add("card-img-top", "rounded-top");
     // create card body container
     const cardBody = document.createElement("div");
-    cardBody.classList.add("card-body", "p-c3", "overflow-hidden");
+    cardBody.classList.add(
+      "card-body",
+      "p-c3",
+      "overflow-hidden",
+      "rounded-bottom"
+    );
 
     // create body content
     const titleRow = document.createElement("div");

@@ -143,12 +143,14 @@ ustensilsSearchInput.addEventListener("input", advancedInputSearch);
 function chooseAdvancedSearchOption(e) {
   e.stopPropagation();
   let target = e.target;
-  if (searchTags.length === 0) {
-    searchTagContainer.classList.add("mt-4");
-  }
+
   if (target.classList.contains("filter-option")) {
+    if (searchTags.length === 0) {
+      searchTagContainer.classList.add("mt-3");
+    }
     // let filterItem = target.getAttribute("data-filter");
     let filterItem = target.textContent;
+    console.log(filterItem);
     let topic = target.getAttribute("data-topic");
     createTag(filterItem, topic);
     filterByTags(filterItem.toLowerCase(), topic);
@@ -174,7 +176,7 @@ function removeTag(e) {
   tag.remove();
 
   if (searchTags.length === 0) {
-    searchTagContainer.classList.remove("mt-4");
+    searchTagContainer.classList.remove("mt-3");
   }
   unfilterByTags(filterItem);
 }
