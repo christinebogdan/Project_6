@@ -6,6 +6,7 @@
 
 mainSearch.addEventListener("input", (e) => {
   let query = e.target.value.toLowerCase();
+  console.log(query);
   if (query.length >= 3) {
     searchPossibleResults(query);
   } else {
@@ -31,7 +32,6 @@ function showAllRecipes() {
 }
 
 // --------------------- SEARCH FUNCTION ---------------------- //
-
 function searchPossibleResults(query) {
   noMatchesDisplay.style.display = "none";
 

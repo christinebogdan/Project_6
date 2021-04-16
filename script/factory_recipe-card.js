@@ -28,7 +28,7 @@ class recipeCard {
 
   create() {
     const recipeCol = document.createElement("div");
-    recipeCol.classList.add("col-12", "col-md-6", "col-lg-4");
+    recipeCol.classList.add("col-12", "col-md-6", "col-lg-4", "recipeCard");
     recipeCol.setAttribute("data-found", "true");
     recipeCol.id = this.recipe.id;
     // create card container

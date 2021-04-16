@@ -162,8 +162,8 @@ function createAdvancedSearchOptions(array, topic) {
     let domChild = document.createElement("p");
     domChild.classList.add(
       "col-xs-12",
-      "col-md-4",
-      "col-sm-6",
+      "col-lg-4",
+      "col-md-6",
       "mb-c7",
       "filter-option"
     );

@@ -17240,6 +17240,20 @@ textarea.form-control-lg {
   font-size: 18px;
 }
 
+@media (min-width: 768px) {
+  #ingredientOptions,
+#ustensilOptions,
+#applianceOptions {
+    width: 40vw;
+  }
+}
+@media (min-width: 992px) {
+  #ingredientOptions,
+#ustensilOptions,
+#applianceOptions {
+    width: 55vw;
+  }
+}
 #nomatch {
   display: none;
 }
@@ -17286,11 +17300,11 @@ textarea.form-control-lg {
   background-color: #c7bebe;
 }
 
-.col[data-found=true] {
+.recipeCard[data-found=true] {
   display: flex;
 }
 
-.col[data-found=false] {
+.recipeCard[data-found=false] {
   display: none;
 }
 
