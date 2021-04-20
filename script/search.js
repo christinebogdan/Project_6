@@ -104,7 +104,7 @@ function searchPossibleResults(query) {
 // ------------------- search via input field ------------------ //
 
 function advancedInputSearch(e) {
-  e.stopPropagation;
+  e.stopPropagation();
   let query = e.target.value.toLowerCase();
   let topic = e.target.id;
   let possibleResults;
@@ -168,7 +168,6 @@ document
   .addEventListener("click", chooseAdvancedSearchOption);
 
 // --------------------- deleting filter ---------------------- //
-
 function removeTag(e) {
   e.stopPropagation();
   let tag = e.target.parentElement;
@@ -237,24 +236,36 @@ function unfilterByTags(filterItem) {
   // search Results zurücksetzen, da Suche von vorne laufen muss
   searchResults.clear();
 
-  // if no filter tags left || main search > 2 | main search < 3
-  if (searchTags.length === 0) {
-    if (mainSearch.value.length > 2) {
-      searchPossibleResults(mainSearch.value);
-    } else {
-      showAllRecipes();
-    }
+  // if main search > 2
+  if (mainSearch.value.length > 2) {
+    searchPossibleResults(mainSearch.value);
   }
-
-  // if filter tags left || main search > 2 | main search < 3
+  // if main search < 3 || filter tags left | no filter tags left
   else {
-    if (mainSearch.value.length > 2) {
-      searchPossibleResults(mainSearch.value);
-      // getFilterTagsSearchResults();
+    if (searchTags.length === 0) {
+      showAllRecipes();
     } else {
       getFilterTagsSearchResults();
     }
   }
+  // // if no filter tags left || main search > 2 | main search < 3
+  // if (searchTags.length === 0) {
+  //   if (mainSearch.value.length > 2) {
+  //     searchPossibleResults(mainSearch.value);
+  //   } else {
+  //     showAllRecipes();
+  //   }
+  // }
+
+  // // if filter tags left || main search > 2 | main search < 3
+  // else {
+  //   if (mainSearch.value.length > 2) {
+  //     searchPossibleResults(mainSearch.value);
+  //     // getFilterTagsSearchResults();
+  //   } else {
+  //     getFilterTagsSearchResults();
+  //   }
+  // }
 }
 
 // run filter tag(s) on recipe basis
