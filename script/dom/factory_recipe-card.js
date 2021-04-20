@@ -1,5 +1,5 @@
 // factory to create recipe cards
-class recipeCard {
+export class recipeCard {
   constructor(recipe) {
     this.recipe = recipe;
   }
