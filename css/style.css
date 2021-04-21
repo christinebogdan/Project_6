@@ -17196,6 +17196,7 @@ textarea.form-control-lg {
 #applianceCollapse {
   z-index: 1000;
   border-radius: 5px;
+  max-width: 630px;
 }
 
 #ingredientsSearchInput,
@@ -17238,6 +17239,7 @@ textarea.form-control-lg {
 #applianceOptions {
   border-radius: 5px;
   font-size: 18px;
+  max-width: 630px;
 }
 
 @media (min-width: 768px) {
