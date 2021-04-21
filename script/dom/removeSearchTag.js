@@ -1,8 +1,8 @@
-import { mainSearch } from "./coreSearchVar.js";
-import { searchResults } from "./coreSearchVar.js";
-import { showAllRecipes } from "./showAllRecipes.js";
-import { searchPossibleResults } from "./mainSearch.js";
-import { getFilterTagsSearchResults } from "./filterByAllTags.js";
+import { mainSearch } from "../search/coreSearchVar.js";
+import { searchResults } from "../search/coreSearchVar.js";
+import { showAllRecipes } from "../search/showAllRecipes.js";
+import { searchPossibleResults } from "../search/mainSearch.js";
+import { getFilterTagsSearchResults } from "../search/filterByAllTags.js";
 
 const searchTagContainer = document.querySelector("#search-tags");
 let searchTags = document.querySelector("#search-tags").children;

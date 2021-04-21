@@ -1,6 +1,6 @@
 import { recipes } from "../recipes.js";
 import { searchResults } from "./coreSearchVar.js";
-import { updateAdvancedSearchOptions } from "./updateAdvancedSearchOptions.js";
+import { updateAdvancedSearchOptions } from "../dom/updateAdvancedSearchOptions.js";
 import { searchPattern } from "./algorithms/kmp.js";
 
 export function filterByTag(filterItem, topic) {

@@ -1,8 +1,8 @@
-import { ingredientSet } from "./coreSearchVar.js";
-import { applianceSet } from "./coreSearchVar.js";
-import { ustensilSet } from "./coreSearchVar.js";
-import { searchPattern } from "./algorithms/kmp.js";
-import { createAdvancedSearchOptions } from "../dom/createAdvancedSearchOptions.js";
+import { ingredientSet } from "../search/coreSearchVar.js";
+import { applianceSet } from "../search/coreSearchVar.js";
+import { ustensilSet } from "../search/coreSearchVar.js";
+import { searchPattern } from "../search/algorithms/kmp.js";
+import { createAdvancedSearchOptions } from "./createAdvancedSearchOptions.js";
 
 let ingredientsArrayNoDuplicates = [];
 let applianceArrayNoDuplicates = [];

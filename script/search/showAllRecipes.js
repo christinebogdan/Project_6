@@ -1,4 +1,4 @@
-import { updateAdvancedSearchOptions } from "./updateAdvancedSearchOptions.js";
+import { updateAdvancedSearchOptions } from "../dom/updateAdvancedSearchOptions.js";
 import { recipes } from "../recipes.js";
 import { searchResults } from "./coreSearchVar.js";
 

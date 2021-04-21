@@ -5,8 +5,8 @@ import { noMatchesDisplay } from "../coreSearchVar.js";
 import { searchResults } from "../coreSearchVar.js";
 import { searchTags } from "../coreSearchVar.js";
 import { getFilterTagsSearchResults } from "../filterByAllTags.js";
-import { chooseAdvancedSearchOption } from "../chooseAdvancedSearchOption.js";
-import { advancedInputSearch } from "../updateAdvancedSearchOptions.js";
+import { chooseAdvancedSearchOption } from "../../dom/chooseAdvancedSearchOption.js";
+import { advancedInputSearch } from "../../dom/updateAdvancedSearchOptions.js";
 
 const ingredientsSearchInput = document.querySelector(
   "#ingredientsSearchInput"

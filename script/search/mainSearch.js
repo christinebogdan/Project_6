@@ -7,7 +7,7 @@ import { searchTags } from "./coreSearchVar.js";
 import { recipes } from "../recipes.js";
 import { getFilterTagsSearchResults } from "./filterByAllTags.js";
 import { searchPattern } from "./algorithms/kmp.js";
-import { updateAdvancedSearchOptions } from "./updateAdvancedSearchOptions.js";
+import { updateAdvancedSearchOptions } from "../dom/updateAdvancedSearchOptions.js";
 // import { mainSearch } from "../search/coreSearchVar.js";
 // import { showAllRecipes } from "../search/showAllRecipes.js";
 let previousQuery = "";

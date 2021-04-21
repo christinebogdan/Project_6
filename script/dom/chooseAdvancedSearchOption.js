@@ -1,6 +1,6 @@
-import { searchTags } from "./coreSearchVar.js";
+import { searchTags } from "../search/coreSearchVar.js";
 import { createSearchTag } from "./createSearchTag.js";
-import { filterByTag } from "./filterByTag.js";
+import { filterByTag } from "../search/filterByTag.js";
 
 export function chooseAdvancedSearchOption(e) {
   e.stopPropagation();
