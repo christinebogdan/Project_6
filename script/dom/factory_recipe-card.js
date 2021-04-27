@@ -4,7 +4,7 @@ export class recipeCard {
     this.recipe = recipe;
   }
 
-  #createIngredientList(data) {
+  _createIngredientList(data) {
     const ingredients = document.createElement("div");
     ingredients.classList.add("card-text", "col-6", "recipe-ingredients");
     let ingredient = ``;
@@ -61,7 +61,7 @@ export class recipeCard {
     recipeTime.classList.add("text-end", "recipe-time", "flex-shrink-0");
     recipeTime.innerHTML = `<i class='bi bi-clock px-2'></i>${this.recipe.time} min`;
     // recipe ingredients
-    const recipeIngredients = this.#createIngredientList(
+    const recipeIngredients = this._createIngredientList(
       this.recipe.ingredients
     );
     // const recipeIngredients = document.createElement("div");
