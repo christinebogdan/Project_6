@@ -1,7 +1,7 @@
 import { ingredientSet } from "../search/coreSearchVar.js";
 import { applianceSet } from "../search/coreSearchVar.js";
 import { ustensilSet } from "../search/coreSearchVar.js";
-import { searchPattern } from "../search/algorithms/kmp.js";
+import searchPattern from "../search/algorithms/linearSearch.js";
 import { createAdvancedSearchOptions } from "./createAdvancedSearchOptions.js";
 
 let ingredientsArrayNoDuplicates = [];

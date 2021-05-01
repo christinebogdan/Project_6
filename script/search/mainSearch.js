@@ -6,7 +6,7 @@ import { searchResults } from "./coreSearchVar.js";
 import { searchTags } from "./coreSearchVar.js";
 import { recipes } from "../recipes.js";
 import { getFilterTagsSearchResults } from "./filterByAllTags.js";
-import { searchPattern } from "./algorithms/kmp.js";
+import searchPattern from "./algorithms/linearSearch.js";
 import { updateAdvancedSearchOptions } from "../dom/updateAdvancedSearchOptions.js";
 // import { mainSearch } from "../search/coreSearchVar.js";
 // import { showAllRecipes } from "../search/showAllRecipes.js";

@@ -1,4 +1,4 @@
-export function searchPatternNaive(query, text) {
+export default function searchPatternNaive(query, text) {
   const m = query.length;
   const n = text.length;
 
