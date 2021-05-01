@@ -2,7 +2,7 @@ export default function searchPatternNaive(query, text) {
   const m = query.length;
   const n = text.length;
 
-  for (let i = 0; i < n - m; i++) {
+  for (let i = 0; i <= n - m; i++) {
     let j = 0;
 
     while (j < m) {
